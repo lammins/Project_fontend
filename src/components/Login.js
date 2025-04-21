@@ -21,6 +21,21 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <nav className="flex justify-between items-center p-4 shadow bg-white sticky top-0 z-10">
+        <div className="text-xl font-bold text-blue-600 cursor-pointer" onClick={() => navigate('/home')}>
+          🛍️ MyShop
+        </div>
+        <div className="space-x-4">
+          <button onClick={() => navigate('/add')} className="text-gray-700 hover:text-blue-500">Thêm sản phẩm</button>
+          <button onClick={() => navigate('/search')} className="text-gray-700 hover:text-blue-500">Tìm kiếm</button>
+          <button
+            onClick={handleLogout}
+            className="text-red-500 font-semibold"
+          >
+            Đăng xuất
+          </button>
+        </div>
+      </nav>
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Đăng nhập</h2>
         <input className="form-control mb-3 w-full border px-3 py-2 rounded" placeholder="Tài khoản" value={username} onChange={(e) => setUsername(e.target.value)} />
