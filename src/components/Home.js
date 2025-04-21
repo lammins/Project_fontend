@@ -13,7 +13,7 @@ export default function Home() {
 
   const fetchProducts = useCallback(async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/products', {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/products`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       setProducts(res.data);
@@ -29,7 +29,7 @@ export default function Home() {
   const handleDelete = async (id) => {
     if (!window.confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/products/${id}`, {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/products/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       fetchProducts();

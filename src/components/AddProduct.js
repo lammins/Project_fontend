@@ -20,7 +20,7 @@ export default function AddProduct({ onClose }) {
   const fetchMaxId = async (categoryCode) => {
     try {
       const res = await axios.get(`
-        http://localhost:5000/api/max-id/${categoryCode}`, {
+        ${process.env.REACT_APP_API_URL}/api/max-id/${categoryCode}`, {
         headers: {
           Authorization:
             `Bearer ${localStorage.getItem('token')}`
@@ -123,7 +123,7 @@ export default function AddProduct({ onClose }) {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/products', form, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/products`, form, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
 

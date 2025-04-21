@@ -12,7 +12,7 @@ export default function EditProduct() {
     const fetchData = async () => {
       try {
         const res = await axios.get
-        (`http://localhost:5000/api/products/${id}`, {
+        (`${process.env.REACT_APP_API_URL}/api/products/${id}`, {
           headers: { Authorization: 
             `Bearer ${localStorage.getItem('token')}` }
         });
@@ -39,7 +39,7 @@ export default function EditProduct() {
   const handleSubmit = async () => {
     if (!form.name || !form.price) return alert('Vui lòng điền đủ thông tin bắt buộc');
     try {
-      await axios.put(`http://localhost:5000/api/products/${id}`, form, {
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/products/${id}`, form, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       navigate('/home');

@@ -18,7 +18,7 @@ export default function Register() {
       return;
     }
     try {
-      await axios.post('http://localhost:5000/api/register', { username, password });
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/register`, { username, password });
       alert('Đăng ký thành công');
       navigate('/');
     } catch (err) {

@@ -11,7 +11,7 @@ export default function Login() {
   const handleLogin = async () => {
     if (!username || !password) return alert('Vui lòng nhập đầy đủ thông tin');
     try {
-      const res = await axios.post('http://localhost:5000/api/login', { username, password });
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, { username, password });
       localStorage.setItem('token', res.data.token);
       navigate('/home');
     } catch (error) {
