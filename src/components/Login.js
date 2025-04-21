@@ -29,7 +29,10 @@ export default function Login() {
           <button onClick={() => navigate('/add')} className="text-gray-700 hover:text-blue-500">Thêm sản phẩm</button>
           <button onClick={() => navigate('/search')} className="text-gray-700 hover:text-blue-500">Tìm kiếm</button>
           <button
-            onClick={handleLogout}
+            onClick={() => {
+              localStorage.removeItem('token');
+              navigate('/login');
+            }}
             className="text-red-500 font-semibold"
           >
             Đăng xuất
