@@ -6,16 +6,16 @@ import { useNavigate } from 'react-router-dom';
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
   const navigate = useNavigate();
 
-  // Fetch products from server
+  // Fetch products with optional search term
   const fetchProducts = async () => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/products`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        params: searchTerm ? { search: searchTerm } : {},
       });
       setProducts(res.data);
     } catch (error) {
@@ -25,22 +25,17 @@ export default function Search() {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [searchTerm]);
 
   useEffect(() => {
-    if (searchTerm) {
-      setFilteredProducts(products.filter(prod => prod.name.toLowerCase().includes(searchTerm.toLowerCase())));
-    } else {
-      setFilteredProducts(products);
-    }
-  }, [searchTerm, products]);
+    fetchProducts(); // Load ban đầu
+  }, []);
 
-  // Handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset về trang đầu khi tìm
   };
 
-  // Handle delete product
   const handleDelete = async (id) => {
     if (!window.confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
     try {
@@ -56,8 +51,8 @@ export default function Search() {
   // Pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(products.length / productsPerPage);
 
   return (
     <div>
@@ -92,7 +87,7 @@ export default function Search() {
           onChange={handleSearchChange}
         />
 
-        {/* Danh sách sản phẩm tìm kiếm */}
+        {/* Danh sách sản phẩm */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {currentProducts.length > 0 ? (
             currentProducts.map((prod) => (
